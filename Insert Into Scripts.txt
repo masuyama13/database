@@ -51,7 +51,7 @@ INSERT INTO Payment (Payment_Id, Patient_Id, Appointment_Id) VALUES
 (6, 1, 6),
 (7, 1, 6);
 
-INSERT INTO Payment_Details (Payment_Detail_Id, Amount, Payment_Date, Due_Date, Payment_Type, Payment_Status, Insurance_Id, Payment_Id) VALUES
+INSERT INTO Payment_Details (Payment_Detail_Id, Amount, Payment_Date, Due_Date, Payment_Type, Payment_Status, Policy_Number, Payment_Id) VALUES
 (1, 100.00, '2025-04-01', '2025-04-01', 'Charged to Insurance', 'Full Payment', 'POL-2222-C', 1),
 (2, 200.00, '2025-04-01', '2025-04-01', 'Charged to Insurance', 'Full Payment', 'POL-3333-B', 2),
 (3, 300.00, '2025-04-02', '2025-04-02', 'Charged to Insurance', 'Full Payment', 'POL-4444-D', 3),
@@ -59,9 +59,3 @@ INSERT INTO Payment_Details (Payment_Detail_Id, Amount, Payment_Date, Due_Date, 
 (5, 1000.00, '2025-04-02', '2025-04-02', 'Charged to Insurance', 'Split Payment', 'POL-1111-D', 5),
 (6, 1000.00, '2025-04-02', '2025-04-02', 'Cash', 'Split Payment', NULL, 6),
 (7, 1000.00, '2025-04-02', '2025-04-02', 'Charged to Insurance', 'Split Payment', 'POL-6666-C', 7);
-
-
-
-
-
-
