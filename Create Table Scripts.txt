@@ -1,0 +1,78 @@
+CREATE DATABASE Project;  
+USE Project;
+
+CREATE TABLE Dentist (
+    DentistId INT PRIMARY KEY,
+    PhoneNumber VARCHAR(15) NOT NULL,
+    Email VARCHAR(150) UNIQUE NOT NULL,
+    Specialization VARCHAR(50) NOT NULL,
+    FirstName VARCHAR(50) NOT NULL,
+    LastName VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE Patient (
+    PatientId INT PRIMARY KEY,
+    PhoneNumber VARCHAR(15) NOT NULL,
+    HomeAddress VARCHAR(255) NOT NULL,
+    BirthDate DATE NOT NULL,
+    Email VARCHAR(150) UNIQUE NOT NULL,
+    FirstName VARCHAR(50) NOT NULL,
+    LastName VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE Appointment (
+    AppointmentId INT PRIMARY KEY,
+    AppointmentDate DATE NOT NULL,
+    AppointmentTime TIME NOT NULL,
+    AppointmentStatus VARCHAR(50) NOT NULL,
+    DentistId INT,
+    PatientId INT,
+    FOREIGN KEY (DentistId) REFERENCES Dentist(DentistId) ON DELETE SET NULL,
+    FOREIGN KEY (PatientId) REFERENCES Patient(PatientId) ON DELETE CASCADE
+);
+
+CREATE TABLE Appointment_Treatments (
+    AppointmentId INT,
+    TreatmentType VARCHAR(100) NOT NULL,
+    PRIMARY KEY (AppointmentId, TreatmentType),
+    FOREIGN KEY (AppointmentId) REFERENCES Appointment(AppointmentId) ON DELETE CASCADE
+);
+
+CREATE TABLE InsurancePolicy (
+    PolicyNumber VARCHAR(50) PRIMARY KEY,
+    CompanyName VARCHAR(255) NOT NULL,
+    CoverageLimit DECIMAL(10,2) NOT NULL,
+    StartDate DATE NOT NULL,
+    EndDate DATE NOT NULL,
+    PatientId INT,
+    FOREIGN KEY (PatientId) REFERENCES Patient(PatientId) ON DELETE CASCADE
+);
+
+CREATE TABLE Referrer_Refers_Referral (
+    ReferralPatientId INT NOT NULL,
+    ReferrerPatientId INT NOT NULL,
+    PRIMARY KEY (ReferralPatientId, ReferrerPatientId),
+    FOREIGN KEY (ReferralPatientId) REFERENCES Patient(PatientId) ON DELETE NO ACTION,
+    FOREIGN KEY (ReferrerPatientId) REFERENCES Patient(PatientId) ON DELETE NO ACTION
+);
+
+CREATE TABLE Payment (
+    PaymentId INT PRIMARY KEY,
+    PatientId INT,
+    AppointmentId INT,
+    FOREIGN KEY (PatientId) REFERENCES Patient(PatientId) ON DELETE CASCADE,
+    FOREIGN KEY (AppointmentId) REFERENCES Appointment(AppointmentId) ON DELETE NO ACTION
+);
+
+CREATE TABLE Payment_Details (
+    PaymentDetailID INT PRIMARY KEY,
+    Amount DECIMAL(8,2) NOT NULL,
+    PaymentDate DATE NOT NULL,
+    DueDate DATE NOT NULL,
+    PaymentType VARCHAR(50) NOT NULL,
+    PaymentStatus VARCHAR(50) NOT NULL,
+    InsuranceID VARCHAR(50),
+    PaymentID INT,
+    FOREIGN KEY (InsuranceID) REFERENCES InsurancePolicy(PolicyNumber) ON DELETE SET NULL,
+    FOREIGN KEY (PaymentID) REFERENCES Payment(PaymentId) ON DELETE NO ACTION
+);

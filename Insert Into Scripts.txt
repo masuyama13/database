@@ -1,0 +1,67 @@
+INSERT INTO Dentist (DentistId, PhoneNumber, Email, Specialization, FirstName, LastName) VALUES
+(1, '236-868-1111', 'dei.serrano@gmail.com', 'Orthodontics', 'Dei', 'Serrano'),
+(2, '236-868-2222', 'peds.galvez@yahoo.com', 'Pediatric Dentistry', 'Peds', 'Galvez'),
+(3, '236-868-3333', 'anna.lim@gmail.com', 'Endodontist', 'Anna', 'Lim'),
+(4, '236-868-4444', 'maria.gomes@gmail.com', 'Periodontist', 'Maria', 'Gomes'),
+(5, '236-868-5555', 'lando.leclerc@gmail.com', 'Oral Surgeon', 'Lando', 'Leclerc');
+
+INSERT INTO Patient (PatientId, PhoneNumber, HomeAddress, BirthDate, Email, FirstName, LastName) VALUES
+(1, '778-859-1111', '123 Robinson Street, CO', '1980-01-01', 'sean.john@gmail.com', 'Sean', 'John'),
+(2, '778-859-2222', '456 Regan Street, LA', '1985-02-02', 'drake.lamar@yahoo.com', 'Drake', 'Lamar'),
+(3, '778-859-3333', '789 Farrow Street, BU', '1990-03-03', 'alden.richards@yahoo.com', 'Alden', 'Richards'),
+(4, '778-859-4444', '1011 Dogwood Street, SU', '1995-04-04', 'kath.bernardo@yahoo.com', 'Kath', 'Bernardo'),
+(5, '778-859-5555', '1213 Chestnut Street, NW', '2000-05-05', 'xian.gaza@gmail.com', 'Xian', 'Gaza');
+
+INSERT INTO Appointment (AppointmentId, AppointmentDate, AppointmentTime, AppointmentStatus, DentistId, PatientId) VALUES
+(1, '2025-04-01', '10:00:00', 'Canceled', 1, 1),
+(2, '2025-04-01', '10:00:00', 'Scheduled', 1, 2),
+(3, '2025-04-01', '11:00:00', 'Scheduled', 2, 3),
+(4, '2025-04-02', '13:00:00', 'Scheduled', 3, 4),
+(5, '2025-04-02', '14:00:00', 'Scheduled', 4, 5),
+(6, '2025-04-02', '15:00:00', 'Re-scheduled', 1, 1);
+
+INSERT INTO Appointment_Treatments (AppointmentId, TreatmentType) VALUES
+(1, 'Teeth Alignment'),
+(2, 'Braces'),
+(3, 'Teeth Cleaning'),
+(4, 'Root Canal'),
+(5, 'Dental Implant Cleaning'),
+(6, 'Teeth Alignment');
+
+INSERT INTO InsurancePolicy (PolicyNumber, CompanyName, CoverageLimit, StartDate, EndDate, PatientId) VALUES
+('POL-1111-D', 'Desjardins', 10000.00, '2025-01-01', '2025-12-31', 1),
+('POL-2222-C', 'Canada Life', 15000.00, '2025-02-01', '2026-01-31', 2),
+('POL-3333-B', 'Blue Cross', 8000.00, '2024-06-01', '2025-05-31', 3),
+('POL-4444-D', 'Desjardins', 10000.00, '2024-10-01', '2025-9-30', 4),
+('POL-5555-C', 'Canada Life', 15000.00, '2025-02-01', '2026-1-31', 5),
+('POL-6666-C', 'Canada Life', 15000.00, '2025-01-01', '2025-12-31', 1);
+
+INSERT INTO Referrer_Refers_Referral (ReferralPatientId, ReferrerPatientId) VALUES
+(2, 1),
+(3, 1),
+(4, 3),
+(5, 4);
+
+INSERT INTO Payment (PaymentId, PatientId, AppointmentId) VALUES
+(1, 2, 2),
+(2, 3, 3),
+(3, 4, 4),
+(4, 5, 5),
+(5, 1, 6),
+(6, 1, 6),
+(7, 1, 6);
+
+INSERT INTO Payment_Details (PaymentDetailID, Amount, PaymentDate, DueDate, PaymentType, PaymentStatus, InsuranceID, PaymentID) VALUES
+(1, 100.00, '2025-04-01', '2025-04-01', 'Charged to Insurance', 'Full Payment', 'POL-2222-C', 1),
+(2, 200.00, '2025-04-01', '2025-04-01', 'Charged to Insurance', 'Full Payment', 'POL-3333-B', 2),
+(3, 300.00, '2025-04-02', '2025-04-02', 'Charged to Insurance', 'Full Payment', 'POL-4444-D', 3),
+(4, 400.00, '2025-04-02', '2025-04-02', 'Charged to Insurance', 'Full Payment', 'POL-5555-C', 4),
+(5, 1000.00, '2025-04-02', '2025-04-02', 'Charged to Insurance', 'Split Payment', 'POL-1111-D', 5),
+(6, 1000.00, '2025-04-02', '2025-04-02', 'Cash', 'Split Payment', NULL, 6),
+(7, 1000.00, '2025-04-02', '2025-04-02', 'Charged to Insurance', 'Split Payment', 'POL-6666-C', 7);
+
+
+
+
+
+
