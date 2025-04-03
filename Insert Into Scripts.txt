@@ -1,16 +1,16 @@
 INSERT INTO Dentist (Dentist_Id, Phone_Number, Email, Specialization, First_Name, Last_Name) VALUES
-(1, '236-868-1111', 'dei.serrano@example.com', 'Orthodontics', 'Dei', 'Serrano'),
-(2, '236-868-2222', 'peds.galvez@yahoo.com', 'Pediatric Dentistry', 'Peds', 'Galvez'),
-(3, '236-868-3333', 'anna.lim@example.com', 'Endodontist', 'Anna', 'Lim'),
-(4, '236-868-4444', 'maria.gomes@example.com', 'Periodontist', 'Maria', 'Gomes'),
-(5, '236-868-5555', 'lando.leclerc@example.com', 'Oral Surgeon', 'Lando', 'Leclerc');
+(1, '2368681111', 'dei.serrano@example.com', 'Orthodontics', 'Dei', 'Serrano'),
+(2, '2368682222', 'peds.galvez@yahoo.com', 'Pediatric Dentistry', 'Peds', 'Galvez'),
+(3, '2368683333', 'anna.lim@example.com', 'Endodontist', 'Anna', 'Lim'),
+(4, '2368684444', 'maria.gomes@example.com', 'Periodontist', 'Maria', 'Gomes'),
+(5, '2368685555', 'lando.leclerc@example.com', 'Oral Surgeon', 'Lando', 'Leclerc');
 
 INSERT INTO Patient (Patient_Id, Phone_Number, Address, Birthdate, Email, First_Name, Last_Name) VALUES
-(1, '778-859-1111', '123 Robinson Street, CO', '1980-01-01', 'sean.john@example.com', 'Sean', 'John'),
-(2, '778-859-2222', '456 Regan Street, LA', '1985-02-02', 'drake.lamar@yahoo.com', 'Drake', 'Lamar'),
-(3, '778-859-3333', '789 Farrow Street, BU', '1990-03-03', 'alden.richards@yahoo.com', 'Alden', 'Richards'),
-(4, '778-859-4444', '1011 Dogwood Street, SU', '1995-04-04', 'kath.bernardo@yahoo.com', 'Kath', 'Bernardo'),
-(5, '778-859-5555', '1213 Chestnut Street, NW', '2000-05-05', 'xian.gaza@example.com', 'Xian', 'Gaza');
+(1, '7788591111', '123 Robinson Street, CO', '1980-01-01', 'sean.john@example.com', 'Sean', 'John'),
+(2, '7788592222', '456 Regan Street, LA', '1985-02-02', 'drake.lamar@yahoo.com', 'Drake', 'Lamar'),
+(3, '7788593333', '789 Farrow Street, BU', '1990-03-03', 'alden.richards@yahoo.com', 'Alden', 'Richards'),
+(4, '7788594444', '1011 Dogwood Street, SU', '1995-04-04', 'kath.bernardo@yahoo.com', 'Kath', 'Bernardo'),
+(5, '7788595555', '1213 Chestnut Street, NW', '2000-05-05', 'xian.gaza@example.com', 'Xian', 'Gaza');
 
 INSERT INTO Appointment (Appointment_Id, Appointment_Date, Appointment_Time, Appointment_Status, Dentist_Id, Patient_Id) VALUES
 (1, '2025-04-01', '10:00:00', 'Canceled', 1, 1),
