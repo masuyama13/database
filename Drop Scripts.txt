@@ -1,7 +1,7 @@
 DROP TABLE IF EXISTS Payment_Details;
 DROP TABLE IF EXISTS Payment;
 DROP TABLE IF EXISTS Referrer_Refers_Referral;
-DROP TABLE IF EXISTS InsurancePolicy;
+DROP TABLE IF EXISTS Insurance_Policy;
 DROP TABLE IF EXISTS Appointment_Treatments;
 DROP TABLE IF EXISTS Appointment;
 DROP TABLE IF EXISTS Patient;
