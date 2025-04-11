@@ -1,0 +1,192 @@
+Step5 Retrieval Queries:
+
+====================================================================================================================
+
+1. INNER JOIN: List all appointments showing dentist names and patient names
+  SELECT
+	a.Appointment_Id,
+	a.Appointment_Date,
+	a.Appointment_Time,
+    	d.First_Name AS Dentist_FirstName,
+    	d.Last_Name AS Dentist_LastName,
+    	p.First_Name AS Patient_FirstName,
+    	p.Last_Name AS Patient_LastName
+  FROM Appointment a
+  INNER JOIN Dentist d ON a.Dentist_Id = d.Dentist_Id
+  INNER JOIN Patient p ON a.Patient_Id = p.Patient_Id;
+
+
+2. LEFT JOIN: List all patients and their appointments (with or without)
+  SELECT
+	p.First_Name,
+	p.Last_Name,
+	a.Appointment_Id
+  FROM Patient p
+  LEFT JOIN Appointment a ON p.Patient_Id = a.Patient_Id;
+
+
+3. RIGHT JOIN: List all patients and their insurance policies (with or without)
+  SELECT
+  	p.First_Name,
+    	p.Last_Name,
+    	ip.Policy_Number,
+    	ip.Company_Name
+  FROM Insurance_Policy ip
+  RIGHT JOIN Patient p ON ip.Patient_Id = p.Patient_Id;
+
+
+4. NATURAL JOIN: List all payments with corresponding patient names
+  SELECT
+    	py.Payment_Id,
+    	py.Appointment_Id,
+    	pt.First_Name,
+    	pt.Last_Name
+  FROM Payment py
+  JOIN Patient pt ON py.Patient_Id = pt.Patient_Id;
+
+
+5. CROSS JOIN: Generate all combinations of dentists and treatment types.
+  SELECT
+	d.First_Name,
+	d.Last_Name,
+	at.Treatment_Type
+  FROM Dentist d
+  CROSS JOIN (SELECT DISTINCT Treatment_Type FROM Appointment_Treatments) at;
+
+
+6. UPDATE Query: Update patient number 6 (Steve Bronson) Phone_Number to 7788597777
+  UPDATE Patient
+  SET Phone_Number = '7788597777'
+  WHERE Patient_Id = 6;
+
+
+7. DELETE Query: Delete patient number 6 (Steve Bronson)
+  DELETE FROM Patient
+  WHERE Patient_Id = 6;
+
+
+8. Aggregate (SUM): Show total payments received per patient
+  SELECT
+	p.Patient_Id,
+    	p.First_Name,
+    	p.Last_Name,
+  SUM(pd.Amount) AS Total_Paid
+  FROM Payment_Details pd
+  JOIN Payment pmt ON pd.Payment_Id = pmt.Payment_Id
+  JOIN Patient p ON pmt.Patient_Id = p.Patient_Id
+  GROUP BY p.Patient_Id, p.First_Name, p.Last_Name;
+
+
+9. Aggregate (AVG): Average treatment cost (assume each treatment is billed once)
+  SELECT
+    	AVG(Amount) AS Avg_Treatment_Cost
+  FROM Payment_Details;
+
+
+10. Aggregate (MAX): Most expensive payment recorded
+  SELECT
+	MAX(Amount) AS Highest_Payment
+  FROM Payment_Details;
+
+
+11. Aggregate (COUNT): Count the number of patients referred by other patients
+  SELECT
+  	rr.Referrer_Patient_Id,
+    	COUNT(*) AS Referrals_Made
+  FROM Referrer_Refers_Referral rr
+  GROUP BY rr.Referrer_Patient_Id;
+
+
+12. Nested Query: Show patients who paid more than the average amount
+  SELECT DISTINCT
+	p.First_Name, p.Last_Name
+  FROM Patient p
+  JOIN Payment pm ON p.Patient_Id = pm.Patient_Id
+  JOIN Payment_Details pd ON pm.Payment_Id = pd.Payment_Id
+  WHERE pd.Amount > (SELECT AVG(Amount) FROM Payment_Details);
+
+
+13. Nested Query: List of patients without appointments
+  SELECT
+	First_Name,
+	Last_Name
+  FROM Patient
+  WHERE Patient_Id NOT IN (SELECT Patient_Id FROM Appointment);
+
+
+14. View: Create view of full appointment info
+  CREATE VIEW view_FullAppointments AS
+  SELECT
+  	a.Appointment_Id,
+    	a.Appointment_Date,
+    	a.Appointment_Time,
+    	a.Appointment_Status,
+    	d.First_Name AS Dentist,
+    	p.First_Name AS Patient,
+    	at.Treatment_Type
+  FROM Appointment a
+  LEFT JOIN Dentist d ON a.Dentist_Id = d.Dentist_Id
+  LEFT JOIN Patient p ON a.Patient_Id = p.Patient_Id
+  LEFT JOIN Appointment_Treatments at ON a.Appointment_Id = at.Appointment_Id;
+
+
+15. Insurance expiring within next 180 days
+  SELECT
+ 	Policy_Number,
+    	Company_Name,
+    	End_Date,
+    	DATEDIFF(DAY, GETDATE(), End_Date) AS Days_Left
+  FROM Insurance_Policy
+  WHERE End_Date BETWEEN GETDATE() AND DATEADD(DAY, 180, GETDATE());
+
+
+16. Show patients with multiple insurance policies
+  SELECT
+  	Patient_Id,
+  COUNT(*) AS Insurance_Count
+  FROM Insurance_Policy
+  GROUP BY Patient_Id
+  HAVING COUNT(*) > 1;
+
+
+17. Show the most common treatment type
+  SELECT TOP 1
+	Treatment_Type,
+  COUNT(*) AS Occurrence
+  FROM Appointment_Treatments
+  GROUP BY Treatment_Type
+  ORDER BY Occurrence DESC;
+
+
+18. Show appointments with 'split payments'
+  SELECT
+	a.Appointment_Id,
+    	p.First_Name,
+    	pd.Payment_Status
+  FROM Appointment a
+  JOIN Payment pm ON a.Appointment_Id = pm.Appointment_Id
+  JOIN Payment_Details pd ON pm.Payment_Id = pd.Payment_Id
+  JOIN Patient p ON pm.Patient_Id = p.Patient_Id
+  WHERE pd.Payment_Status = 'Split Payment';
+
+
+19. Show dentists who had appointments on 2025-04-02
+  SELECT DISTINCT
+	d.First_Name,
+	d.Last_Name
+  FROM Appointment a
+  JOIN Dentist d ON a.Dentist_Id = d.Dentist_Id
+  WHERE a.Appointment_Date = '2025-04-02';
+
+
+20. Show total amount billed per insurance company
+  SELECT
+  	ip.Company_Name,
+  SUM(pd.Amount) AS Total_Billed
+  FROM Payment_Details pd
+  JOIN Insurance_Policy ip ON pd.Policy_Number = ip.Policy_Number
+  GROUP BY ip.Company_Name;
+
+====================================================================================================================
+
+
