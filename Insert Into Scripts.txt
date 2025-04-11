@@ -1,3 +1,5 @@
+-- All scripts worked on both DBMSs.
+
 INSERT INTO Dentist (Dentist_Id, Phone_Number, Email, Specialization, First_Name, Last_Name) VALUES
 (1, '2368681111', 'dei.serrano@example.com', 'Orthodontics', 'Dei', 'Serrano'),
 (2, '2368682222', 'peds.galvez@yahoo.com', 'Pediatric Dentistry', 'Peds', 'Galvez'),

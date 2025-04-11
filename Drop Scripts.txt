@@ -1,3 +1,5 @@
+-- All scripts worked on both DBMSs.
+
 DROP TABLE Payment_Details;
 DROP TABLE Payment;
 DROP TABLE Referrer_Refers_Referral;

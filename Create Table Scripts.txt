@@ -48,6 +48,7 @@ CREATE TABLE Insurance_Policy (
     FOREIGN KEY (Patient_Id) REFERENCES Patient(Patient_Id) ON DELETE CASCADE
 );
 
+-- Set FOREIGN KEY part didn't work on MS SQL Server because those columns are primary attributes. "NO ACTION" is the right option.
 CREATE TABLE Referrer_Refers_Referral (
     Referral_Patient_Id INT,
     Referrer_Patient_Id INT,
@@ -56,6 +57,7 @@ CREATE TABLE Referrer_Refers_Referral (
     FOREIGN KEY (Referrer_Patient_Id) REFERENCES Patient(Patient_Id) ON DELETE CASCADE
 );
 
+-- "ON DELETE SET NULL" didn't work on MS SQL Server because it may cause cycles or multiple cascade paths. "NO ACTION" is the right option.
 CREATE TABLE Payment (
     Payment_Id INT PRIMARY KEY,
     Patient_Id INT,
