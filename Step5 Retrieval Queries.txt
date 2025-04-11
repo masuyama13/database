@@ -2,26 +2,26 @@
 
 --1. INNER JOIN: List all appointments showing dentist names and patient names
 SELECT
-a.Appointment_Id,
-a.Appointment_Date,
-a.Appointment_Time,
-    d.First_Name AS Dentist_FirstName,
-    d.Last_Name AS Dentist_LastName,
-    p.First_Name AS Patient_FirstName,
-    p.Last_Name AS Patient_LastName
+  a.Appointment_Id,
+  a.Appointment_Date,
+  a.Appointment_Time,
+  d.First_Name AS Dentist_FirstName,
+  d.Last_Name AS Dentist_LastName,
+  p.First_Name AS Patient_FirstName,
+  p.Last_Name AS Patient_LastName
 FROM Appointment a
-INNER JOIN Dentist d ON a.Dentist_Id = d.Dentist_Id
-INNER JOIN Patient p ON a.Patient_Id = p.Patient_Id
+  INNER JOIN Dentist d ON a.Dentist_Id = d.Dentist_Id
+  INNER JOIN Patient p ON a.Patient_Id = p.Patient_Id
 ORDER BY Appointment_Date, Appointment_Time;
 
 -- 2. LEFT JOIN: List all patients and their appointments (with or without)
 SELECT
-p.First_Name,
-p.Last_Name,
-a.Appointment_Date,
-a.Appointment_Time
+  p.First_Name,
+  p.Last_Name,
+  a.Appointment_Date,
+  a.Appointment_Time
 FROM Patient p
-LEFT JOIN Appointment a ON p.Patient_Id = a.Patient_Id;
+  LEFT JOIN Appointment a ON p.Patient_Id = a.Patient_Id;
 
 -- 3. RIGHT JOIN: List all patients and their insurance policies (with or without)
 SELECT
@@ -30,7 +30,7 @@ SELECT
   ip.Policy_Number,
   ip.Company_Name
 FROM Insurance_Policy ip
-RIGHT JOIN Patient p ON ip.Patient_Id = p.Patient_Id;
+  RIGHT JOIN Patient p ON ip.Patient_Id = p.Patient_Id;
 
 -- 4. NATURAL JOIN: Unpaid payments after due date (Assume that today is April 11)
 -- Does not work on MS SQL Server because it does not support NATURAL JOIN
@@ -42,8 +42,8 @@ SELECT
   Payment_Status,
   Policy_Number
 FROM Patient
-NATURAL JOIN Payment
-NATURAL JOIN Payment_Details
+  NATURAL JOIN Payment
+  NATURAL JOIN Payment_Details
 WHERE Payment_Date < '2025-04-11'
 AND Payment_Status <> 'Full Payment';
 
@@ -56,8 +56,8 @@ SELECT
   Payment_Status,
   Policy_Number
 FROM Patient
-JOIN Payment ON Patient.Patient_id = Payment.Patient_id
-JOIN Payment_Details ON Payment.Payment_id = Payment_Details.Payment_id
+  JOIN Payment ON Patient.Patient_id = Payment.Patient_id
+  JOIN Payment_Details ON Payment.Payment_id = Payment_Details.Payment_id
 WHERE Payment_Date < '2025-04-11'
 AND Payment_Status <> 'Full Payment';
 
@@ -67,7 +67,7 @@ SELECT
   d.Last_Name,
   at.Treatment_Type
 FROM Dentist d
-CROSS JOIN (SELECT DISTINCT Treatment_Type FROM Appointment_Treatments) at
+  CROSS JOIN (SELECT DISTINCT Treatment_Type FROM Appointment_Treatments) at
 ORDER BY First_Name, Last_Name;
 
 -- 6. UPDATE Query: Update patient number 6 (Steve Bronson) Phone_Number to 7788597777
@@ -86,8 +86,8 @@ SELECT
   p.Last_Name,
   SUM(pd.Amount) AS Total_Amount
 FROM Payment_Details pd
-JOIN Payment pmt ON pd.Payment_Id = pmt.Payment_Id
-JOIN Patient p ON pmt.Patient_Id = p.Patient_Id
+  JOIN Payment pmt ON pd.Payment_Id = pmt.Payment_Id
+  JOIN Patient p ON pmt.Patient_Id = p.Patient_Id
 GROUP BY p.Patient_Id, p.First_Name, p.Last_Name;
 
 -- 9. Aggregate (AVG): Average treatment cost (assume each treatment is billed once)
@@ -106,7 +106,7 @@ SELECT
   p.Last_Name,
   COUNT(*) AS Referrals_Made
 FROM Referrer_Refers_Referral rr
-JOIN Patient p ON p.Patient_Id = rr.Referrer_Patient_Id
+  JOIN Patient p ON p.Patient_Id = rr.Referrer_Patient_Id
 GROUP BY rr.Referrer_Patient_Id;
 
 -- 12. Nested Query: Show patients who paid more than the average amount
@@ -114,8 +114,8 @@ SELECT DISTINCT
   p.First_Name,
   p.Last_Name
 FROM Patient p
-JOIN Payment pm ON p.Patient_Id = pm.Patient_Id
-JOIN Payment_Details pd ON pm.Payment_Id = pd.Payment_Id
+  JOIN Payment pm ON p.Patient_Id = pm.Patient_Id
+  JOIN Payment_Details pd ON pm.Payment_Id = pd.Payment_Id
 WHERE pd.Amount > (SELECT AVG(Amount) FROM Payment_Details);
 
 -- 13. Nested Query: List dentists without appointments
@@ -136,9 +136,9 @@ SELECT
   CONCAT(d.First_Name, ' ', d.Last_Name) AS Dentist,
   at.Treatment_Type
 FROM Appointment a
-LEFT JOIN Dentist d ON a.Dentist_Id = d.Dentist_Id
-LEFT JOIN Patient p ON a.Patient_Id = p.Patient_Id
-LEFT JOIN Appointment_Treatments at ON a.Appointment_Id = at.Appointment_Id;
+  LEFT JOIN Dentist d ON a.Dentist_Id = d.Dentist_Id
+  LEFT JOIN Patient p ON a.Patient_Id = p.Patient_Id
+  LEFT JOIN Appointment_Treatments at ON a.Appointment_Id = at.Appointment_Id;
 
 -- 15. Insurance expiring within next 180 days (Does not work on MySQL because it does not support GETDATE())
 SELECT
@@ -151,10 +151,10 @@ WHERE End_Date BETWEEN GETDATE() AND DATEADD(DAY, 180, GETDATE());
 
 -- (15) This query gets the same result as the query above and works on MySQL, but does not work on MS SQL Server because NOW() is not supported by MS SQL Server
 SELECT
-	Policy_Number,
-	Company_Name,
-	End_Date,
-	DATEDIFF(End_Date, NOW()) AS Days_Left
+  Policy_Number,
+  Company_Name,
+  End_Date,
+  DATEDIFF(End_Date, NOW()) AS Days_Left
 FROM Insurance_Policy
 WHERE End_Date BETWEEN NOW() AND DATE_ADD(NOW(), INTERVAL 180 DAY);
 
@@ -164,7 +164,7 @@ SELECT
   p.Last_Name,
   COUNT(*) AS Insurance_Count
 FROM Insurance_Policy ip
-JOIN Patient p ON p.Patient_Id = ip.Patient_Id
+  JOIN Patient p ON p.Patient_Id = ip.Patient_Id
 GROUP BY p.First_Name, p.Last_Name
 HAVING COUNT(*) > 1;
 
@@ -193,9 +193,9 @@ SELECT
   pd.Due_Date,
   pd.Payment_Type
 FROM Appointment a
-JOIN Payment pm ON a.Appointment_Id = pm.Appointment_Id
-JOIN Payment_Details pd ON pm.Payment_Id = pd.Payment_Id
-JOIN Patient p ON pm.Patient_Id = p.Patient_Id
+  JOIN Payment pm ON a.Appointment_Id = pm.Appointment_Id
+  JOIN Payment_Details pd ON pm.Payment_Id = pd.Payment_Id
+  JOIN Patient p ON pm.Patient_Id = p.Patient_Id
 WHERE pd.Payment_Status = 'Split Payment';
 
 -- 19. Show dentists who had appointments on 2025-04-02
@@ -203,7 +203,7 @@ SELECT DISTINCT
   d.First_Name,
   d.Last_Name
 FROM Appointment a
-JOIN Dentist d ON a.Dentist_Id = d.Dentist_Id
+  JOIN Dentist d ON a.Dentist_Id = d.Dentist_Id
 WHERE a.Appointment_Date = '2025-04-02';
 
 -- 20. Show total amount billed per insurance company
@@ -211,5 +211,5 @@ SELECT
   ip.Company_Name,
   SUM(pd.Amount) AS Total_Billed
 FROM Payment_Details pd
-JOIN Insurance_Policy ip ON pd.Policy_Number = ip.Policy_Number
+  JOIN Insurance_Policy ip ON pd.Policy_Number = ip.Policy_Number
 GROUP BY ip.Company_Name;
